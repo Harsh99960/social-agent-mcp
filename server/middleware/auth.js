@@ -8,7 +8,7 @@
 //               ↓
 //          next() 
 import jwt from "jsonwebtoken";
-import User from "../models/User.js";
+import User from "../models/user.js";
 
 /**
  * @name protect

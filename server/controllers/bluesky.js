@@ -1,5 +1,5 @@
 import { BskyAgent } from "@atproto/api";
-import User from "../models/User.js";
+import User from "../models/user.js";
 import { encrypt } from "../utils/encryption.js";
 import { getBlueskyStats } from "../mcp.tool.js"; // updated: existing analytics logic reuse karta hai
 
