@@ -13,7 +13,7 @@ function ProtectedRoute({ children }) {
 
     useEffect(() => {
         async function verifyUser() {
-            const token = localStorage.getItem("token"); // updated: get logged-in user's JWT
+            const token = localStorage.getItem("token");
 
             if (!token) {
                 setChecking(false);
@@ -22,23 +22,26 @@ function ProtectedRoute({ children }) {
 
             try {
                 const response = await fetch(
-                    "http://localhost:3000/api/auth/me",
+                    `${import.meta.env.VITE_API_URL}/api/auth/me`,
                     {
                         headers: {
-                            Authorization: `Bearer ${token}`, // updated: send JWT for server verification
+                            Authorization: `Bearer ${token}`,
                         },
                     }
                 );
 
                 if (!response.ok) {
-                    localStorage.removeItem("token"); // updated: remove invalid or expired token
+                    localStorage.removeItem("token");
                     setAuthenticated(false);
                     return;
                 }
 
-                setAuthenticated(true); // updated: server confirmed authenticated user
+                setAuthenticated(true);
             } catch (error) {
-                console.error("Authentication check failed:", error);
+                console.error(
+                    "Authentication check failed:",
+                    error
+                );
                 setAuthenticated(false);
             } finally {
                 setChecking(false);
@@ -49,7 +52,11 @@ function ProtectedRoute({ children }) {
     }, []);
 
     if (checking) {
-        return <div className="auth-loading">Checking authentication...</div>;
+        return (
+            <div className="auth-loading">
+                Checking authentication...
+            </div>
+        );
     }
 
     if (!authenticated) {

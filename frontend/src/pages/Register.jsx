@@ -34,7 +34,7 @@ function Register() {
 
         try {
             const response = await fetch(
-                "http://localhost:3000/api/auth/register",
+                `${import.meta.env.VITE_API_URL}/api/auth/register`,
                 {
                     method: "POST",
                     headers: {
@@ -52,7 +52,7 @@ function Register() {
                 );
             }
 
-            navigate("/login", { replace: true }); // updated: redirect to login without full page reload
+            navigate("/login", { replace: true });
         } catch (error) {
             setError(error.message);
         } finally {
@@ -61,133 +61,133 @@ function Register() {
     }
 
     return (
-    <div className="auth-page">
-        <div className="auth-shell">
+        <div className="auth-page">
+            <div className="auth-shell">
 
-            <div className="auth-brand">
-                <div className="auth-logo">✦</div>
+                <div className="auth-brand">
+                    <div className="auth-logo">✦</div>
 
-                <div>
-                    <h2>Social Agent</h2>
-                    <span>MCP Powered AI</span>
-                </div>
-            </div>
-
-            <form
-                className="auth-card"
-                onSubmit={handleSubmit}
-            >
-                <div className="auth-heading">
-                    <span className="auth-eyebrow">
-                        GET STARTED
-                    </span>
-
-                    <h1>Create your account</h1>
-
-                    <p>
-                        Create your Social Agent account and start
-                        managing your social media with AI.
-                    </p>
+                    <div>
+                        <h2>Social Agent</h2>
+                        <span>MCP Powered AI</span>
+                    </div>
                 </div>
 
-                {error && (
-                    <div className="auth-error">
-                        <span>!</span>
-                        <p>{error}</p>
-                    </div>
-                )}
-
-                <div className="auth-fields">
-
-                    <div className="auth-field">
-                        <label htmlFor="username">
-                            Username
-                        </label>
-
-                        <input
-                            id="username"
-                            type="text"
-                            name="username"
-                            placeholder="Choose a username"
-                            value={form.username}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    <div className="auth-field">
-                        <label htmlFor="register-email">
-                            Email address
-                        </label>
-
-                        <input
-                            id="register-email"
-                            type="email"
-                            name="email"
-                            placeholder="you@example.com"
-                            value={form.email}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    <div className="auth-field">
-                        <label htmlFor="register-password">
-                            Password
-                        </label>
-
-                        <input
-                            id="register-password"
-                            type="password"
-                            name="password"
-                            placeholder="Create a password"
-                            value={form.password}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                </div>
-
-                <button
-                    type="submit"
-                    className="auth-submit"
-                    disabled={loading}
+                <form
+                    className="auth-card"
+                    onSubmit={handleSubmit}
                 >
-                    {loading ? (
-                        <>
-                            <span className="auth-spinner" />
-                            Creating...
-                        </>
-                    ) : (
-                        <>
-                            Create account
-                            <span>→</span>
-                        </>
+                    <div className="auth-heading">
+                        <span className="auth-eyebrow">
+                            GET STARTED
+                        </span>
+
+                        <h1>Create your account</h1>
+
+                        <p>
+                            Create your Social Agent account and start
+                            managing your social media with AI.
+                        </p>
+                    </div>
+
+                    {error && (
+                        <div className="auth-error">
+                            <span>!</span>
+                            <p>{error}</p>
+                        </div>
                     )}
-                </button>
 
-                <div className="auth-divider">
-                    <span />
-                    <p>OR</p>
-                    <span />
-                </div>
+                    <div className="auth-fields">
 
-                <p className="auth-switch">
-                    Already have an account?
-                    <a href="/login">
-                        Sign in
-                    </a>
+                        <div className="auth-field">
+                            <label htmlFor="username">
+                                Username
+                            </label>
+
+                            <input
+                                id="username"
+                                type="text"
+                                name="username"
+                                placeholder="Choose a username"
+                                value={form.username}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div className="auth-field">
+                            <label htmlFor="register-email">
+                                Email address
+                            </label>
+
+                            <input
+                                id="register-email"
+                                type="email"
+                                name="email"
+                                placeholder="you@example.com"
+                                value={form.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div className="auth-field">
+                            <label htmlFor="register-password">
+                                Password
+                            </label>
+
+                            <input
+                                id="register-password"
+                                type="password"
+                                name="password"
+                                placeholder="Create a password"
+                                value={form.password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="auth-submit"
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <>
+                                <span className="auth-spinner" />
+                                Creating...
+                            </>
+                        ) : (
+                            <>
+                                Create account
+                                <span>→</span>
+                            </>
+                        )}
+                    </button>
+
+                    <div className="auth-divider">
+                        <span />
+                        <p>OR</p>
+                        <span />
+                    </div>
+
+                    <p className="auth-switch">
+                        Already have an account?
+                        <a href="/login">
+                            Sign in
+                        </a>
+                    </p>
+                </form>
+
+                <p className="auth-footer">
+                    Secure authentication · Social Agent
                 </p>
-            </form>
 
-            <p className="auth-footer">
-                Secure authentication · Social Agent
-            </p>
-
+            </div>
         </div>
-    </div>
-);
+    );
 }
 
 export default Register;

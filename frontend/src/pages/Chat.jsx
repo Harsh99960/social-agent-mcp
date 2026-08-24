@@ -26,7 +26,7 @@ function Chat() {
                 const token = localStorage.getItem("token");
 
                 const response = await fetch(
-                    "http://localhost:3000/api/auth/me",
+                    `${import.meta.env.VITE_API_URL}/api/auth/me`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -65,7 +65,7 @@ function Chat() {
 
     async function clearChat() {
         try {
-            await fetch("http://localhost:3000/api/chat/reset", {
+            await fetch(`${import.meta.env.VITE_API_URL}/api/chat/reset`, {
                 method: "POST",
             }); // updated: backend ki conversation memory bhi reset karta hai
 
@@ -99,7 +99,7 @@ function Chat() {
         try {
             const token = localStorage.getItem("token"); // updated: authenticated user's JWT get karta hai
 
-            const response = await fetch("http://localhost:3000/api/chat", {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/chat`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

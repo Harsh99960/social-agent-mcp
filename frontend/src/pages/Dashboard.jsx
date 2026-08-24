@@ -46,7 +46,7 @@ function Dashboard() {
 
             // Fetch authenticated user
             const userResponse = await fetch(
-                "http://localhost:3000/api/auth/me",
+                `${import.meta.env.VITE_API_URL}/api/auth/me`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -65,7 +65,7 @@ function Dashboard() {
 
             // Fetch Bluesky analytics
             const statsResponse = await fetch(
-                `http://localhost:3000/api/bluesky/stats?days=${selectedDays}`,
+                `${import.meta.env.VITE_API_URL}/api/bluesky/stats?days=${selectedDays}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

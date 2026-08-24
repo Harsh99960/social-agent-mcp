@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 /**
  * @name Login
  * @description Login an existing user
@@ -23,7 +22,7 @@ function Login() {
 
         try {
             const response = await fetch(
-                "http://localhost:3000/api/auth/login",
+                `${import.meta.env.VITE_API_URL}/api/auth/login`,
                 {
                     method: "POST",
                     headers: {
@@ -56,7 +55,6 @@ function Login() {
         <div className="auth-page">
             <div className="auth-shell">
 
-                {/* Brand */}
                 <div className="auth-brand">
                     <div className="auth-logo">✦</div>
 
@@ -66,7 +64,6 @@ function Login() {
                     </div>
                 </div>
 
-                {/* Card */}
                 <form className="auth-card" onSubmit={handleSubmit}>
 
                     <div className="auth-heading">

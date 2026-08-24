@@ -24,7 +24,7 @@ function ConnectBluesky() {
         setLoading(true);
 
         try {
-            const token = localStorage.getItem("token"); // updated: gets authenticated user's JWT
+            const token = localStorage.getItem("token");
 
             if (!token) {
                 navigate("/login", { replace: true });
@@ -32,12 +32,12 @@ function ConnectBluesky() {
             }
 
             const response = await fetch(
-                "http://localhost:3000/api/bluesky/connect",
+                `${import.meta.env.VITE_API_URL}/api/bluesky/connect`,
                 {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`, // updated: sends JWT to identify the user
+                        Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({
                         handle,
@@ -54,9 +54,12 @@ function ConnectBluesky() {
                 );
             }
 
-            setSuccess(data.message || "Bluesky account connected successfully");
+            setSuccess(
+                data.message ||
+                    "Bluesky account connected successfully"
+            );
 
-            setAppPassword(""); // updated: clears sensitive password from the form
+            setAppPassword("");
 
             setTimeout(() => {
                 navigate("/chat", { replace: true });
@@ -69,129 +72,129 @@ function ConnectBluesky() {
     }
 
     return (
-    <div className="auth-page">
-        <div className="auth-shell">
+        <div className="auth-page">
+            <div className="auth-shell">
 
-            <div className="auth-brand">
-                <div className="auth-logo">✦</div>
+                <div className="auth-brand">
+                    <div className="auth-logo">✦</div>
 
-                <div>
-                    <h2>Social Agent</h2>
-                    <span>MCP Powered AI</span>
-                </div>
-            </div>
-
-            <form
-                className="auth-card bluesky-card"
-                onSubmit={handleSubmit}
-            >
-                <div className="auth-heading">
-                    <span className="auth-eyebrow">
-                        SOCIAL CONNECTION
-                    </span>
-
-                    <div className="bluesky-icon">🦋</div>
-
-                    <h1>Connect Bluesky</h1>
-
-                    <p>
-                        Connect your Bluesky account and let
-                        Social Agent manage your posts and replies.
-                    </p>
+                    <div>
+                        <h2>Social Agent</h2>
+                        <span>MCP Powered AI</span>
+                    </div>
                 </div>
 
-                {error && (
-                    <div className="auth-error">
-                        <span>!</span>
-                        <p>{error}</p>
-                    </div>
-                )}
-
-                {success && (
-                    <div className="auth-success">
-                        <span>✓</span>
-                        <p>{success}</p>
-                    </div>
-                )}
-
-                <div className="auth-fields">
-
-                    <div className="auth-field">
-                        <label htmlFor="bluesky-handle">
-                            Bluesky Handle
-                        </label>
-
-                        <input
-                            id="bluesky-handle"
-                            type="text"
-                            placeholder="yourname.bsky.social"
-                            value={handle}
-                            onChange={(e) =>
-                                setHandle(e.target.value)
-                            }
-                            required
-                        />
-                    </div>
-
-                    <div className="auth-field">
-                        <label htmlFor="bluesky-password">
-                            App Password
-                        </label>
-
-                        <input
-                            id="bluesky-password"
-                            type="password"
-                            placeholder="xxxx-xxxx-xxxx-xxxx"
-                            value={appPassword}
-                            onChange={(e) =>
-                                setAppPassword(e.target.value)
-                            }
-                            required
-                        />
-                    </div>
-
-                </div>
-
-                <small className="bluesky-note">
-                    Use a Bluesky App Password instead of your
-                    main account password.
-                </small>
-
-                <button
-                    type="submit"
-                    className="auth-submit"
-                    disabled={loading}
+                <form
+                    className="auth-card bluesky-card"
+                    onSubmit={handleSubmit}
                 >
-                    {loading ? (
-                        <>
-                            <span className="auth-spinner" />
-                            Connecting...
-                        </>
-                    ) : (
-                        <>
-                            Connect Account
-                            <span>→</span>
-                        </>
+                    <div className="auth-heading">
+                        <span className="auth-eyebrow">
+                            SOCIAL CONNECTION
+                        </span>
+
+                        <div className="bluesky-icon">🦋</div>
+
+                        <h1>Connect Bluesky</h1>
+
+                        <p>
+                            Connect your Bluesky account and let
+                            Social Agent manage your posts and replies.
+                        </p>
+                    </div>
+
+                    {error && (
+                        <div className="auth-error">
+                            <span>!</span>
+                            <p>{error}</p>
+                        </div>
                     )}
-                </button>
 
-                <button
-                    type="button"
-                    className="secondary-btn"
-                    onClick={() => navigate("/chat")}
-                    disabled={loading}
-                >
-                    ← Back to Chat
-                </button>
-            </form>
+                    {success && (
+                        <div className="auth-success">
+                            <span>✓</span>
+                            <p>{success}</p>
+                        </div>
+                    )}
 
-            <p className="auth-footer">
-                Your credentials are securely handled · Social Agent
-            </p>
+                    <div className="auth-fields">
 
+                        <div className="auth-field">
+                            <label htmlFor="bluesky-handle">
+                                Bluesky Handle
+                            </label>
+
+                            <input
+                                id="bluesky-handle"
+                                type="text"
+                                placeholder="yourname.bsky.social"
+                                value={handle}
+                                onChange={(e) =>
+                                    setHandle(e.target.value)
+                                }
+                                required
+                            />
+                        </div>
+
+                        <div className="auth-field">
+                            <label htmlFor="bluesky-password">
+                                App Password
+                            </label>
+
+                            <input
+                                id="bluesky-password"
+                                type="password"
+                                placeholder="xxxx-xxxx-xxxx-xxxx"
+                                value={appPassword}
+                                onChange={(e) =>
+                                    setAppPassword(e.target.value)
+                                }
+                                required
+                            />
+                        </div>
+
+                    </div>
+
+                    <small className="bluesky-note">
+                        Use a Bluesky App Password instead of your
+                        main account password.
+                    </small>
+
+                    <button
+                        type="submit"
+                        className="auth-submit"
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <>
+                                <span className="auth-spinner" />
+                                Connecting...
+                            </>
+                        ) : (
+                            <>
+                                Connect Account
+                                <span>→</span>
+                            </>
+                        )}
+                    </button>
+
+                    <button
+                        type="button"
+                        className="secondary-btn"
+                        onClick={() => navigate("/chat")}
+                        disabled={loading}
+                    >
+                        ← Back to Chat
+                    </button>
+                </form>
+
+                <p className="auth-footer">
+                    Your credentials are securely handled · Social Agent
+                </p>
+
+            </div>
         </div>
-    </div>
-);
+    );
 }
 
 export default ConnectBluesky;
