@@ -454,4 +454,25 @@ app.post(
     }
 );
 
+async function startServer() {
+    try {
+        await connectDB();
+
+        const PORT = process.env.PORT || 3000;
+
+        app.listen(PORT, () => {
+            console.log(`MCP Server running on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error(
+            "MongoDB connection failed:",
+            error.message
+        );
+
+        process.exit(1);
+    }
+}
+
+startServer();
+
 export default app;
