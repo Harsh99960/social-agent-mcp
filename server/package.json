@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "node index.js"
+  },
   "type": "module",
   "dependencies": {
     "@atproto/api": "^0.20.41",

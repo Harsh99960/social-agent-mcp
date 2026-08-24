@@ -136,7 +136,10 @@ export async function getCurrentUser(req, res) {
 
             // updated: tells frontend whether a Bluesky account is connected
             bluesky: {
-                connected: Boolean(req.user.bluesky?.handle),
+                connected: Boolean(
+                    req.user.bluesky?.connected &&
+                    req.user.bluesky?.handle
+                ),
                 handle: req.user.bluesky?.handle || null,
             },
         },
