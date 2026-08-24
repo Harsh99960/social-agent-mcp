@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "../models/User.js";
+import User from "../models/user.js";
 
 /**
  * @name registerUser
@@ -12,14 +12,14 @@ export async function registerUser(req, res) {
     try {
         const { username, email, password } = req.body;
 
-        // updated: check required registration fields
+        // Check required registration fields
         if (!username || !email || !password) {
             return res.status(400).json({
                 message: "Username, email and password are required",
             });
         }
 
-        // updated: prevent duplicate username or email
+        // Prevent duplicate username or email
         const existingUser = await User.findOne({
             $or: [{ username }, { email }],
         });
@@ -30,7 +30,7 @@ export async function registerUser(req, res) {
             });
         }
 
-        // updated: hash password before saving it
+        // Hash password before saving it
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({
@@ -65,14 +65,14 @@ export async function loginUser(req, res) {
     try {
         const { email, password } = req.body;
 
-        // updated: check required login fields
+        // Check required login fields
         if (!email || !password) {
             return res.status(400).json({
                 message: "Email and password are required",
             });
         }
 
-        // updated: find user by email
+        // Find user by email
         const user = await User.findOne({ email });
 
         if (!user) {
@@ -81,7 +81,7 @@ export async function loginUser(req, res) {
             });
         }
 
-        // updated: compare entered password with hashed password
+        // Compare entered password with hashed password
         const isPasswordValid = await bcrypt.compare(
             password,
             user.password
@@ -93,14 +93,16 @@ export async function loginUser(req, res) {
             });
         }
 
-        // updated: create JWT for authenticated user
+        // Create JWT for authenticated user
         const token = jwt.sign(
             {
                 userId: user._id,
                 username: user.username,
             },
             process.env.JWT_SECRET,
-            { expiresIn: "7d" }
+            {
+                expiresIn: "7d",
+            }
         );
 
         res.status(200).json({
@@ -127,14 +129,14 @@ export async function loginUser(req, res) {
  * @access Private
  */
 export async function getCurrentUser(req, res) {
-    // updated: req.user is added by the protect middleware
+    // req.user is added by the protect middleware
     res.status(200).json({
         user: {
             id: req.user._id,
             username: req.user.username,
             email: req.user.email,
 
-            // updated: tells frontend whether a Bluesky account is connected
+            // Tells frontend whether a Bluesky account is connected
             bluesky: {
                 connected: Boolean(
                     req.user.bluesky?.connected &&
