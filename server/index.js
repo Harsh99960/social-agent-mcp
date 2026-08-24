@@ -20,8 +20,35 @@ import dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 const app = express();
-
 app.use(cors());
+
+let dbPromise;
+
+async function connectDB() {
+    if (mongoose.connection.readyState === 1) {
+        return;
+    }
+
+    if (!dbPromise) {
+        dbPromise = mongoose.connect(process.env.MONGO_URI);
+    }
+
+    await dbPromise;
+}
+
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        console.error("MongoDB connection failed:", error.message);
+        res.status(500).json({
+            message: "Database connection failed",
+        });
+    }
+});
+
+
 
 /**
  * Authentication API
@@ -431,26 +458,4 @@ app.post(
     }
 );
 
-async function startServer() {
-    // updated: database connect hone ke baad server start karta hai
-    try {
-        await mongoose.connect(
-            process.env.MONGO_URI
-        ); // updated: MongoDB se connect karta hai
-
-        console.log("MongoDB connected");
-
-        app.listen(3000, async () => {
-            console.log(
-                "MCP Server running on port 3000"
-            ); // updated: pehle server start hoga
-        });
-    } catch (error) {
-        console.error(
-            "MongoDB connection failed:",
-            error.message
-        );
-    }
-}
-
-startServer(); // updated: application startup begin karta hai
+export default app;
