@@ -1,11 +1,7 @@
-import dotenv from "dotenv";
-
-dotenv.config({ path: "../.env" });
-
 import { GoogleGenAI } from "@google/genai";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
-import User from "../server/models/User.js";
+import User from "../server/models/user.js";
 
 let tools = [];
 
@@ -89,7 +85,9 @@ async function getUserMcpClient(userId) {
 
     // updated: MCP connection is tied to the authenticated user
     const transport = new SSEClientTransport(
-        new URL(`http://localhost:3000/sse?userId=${userId}`)
+        new URL(
+            `http://localhost:${process.env.PORT || 3000}/sse?userId=${userId}`
+        )
     );
 
     await client.connect(transport);

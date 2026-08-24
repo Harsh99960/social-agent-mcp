@@ -4,6 +4,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@google/genai": "^2.17.1",
     "@atproto/api": "^0.20.41",
     "@modelcontextprotocol/sdk": "^1.30.0",
     "bcryptjs": "^3.0.3",
