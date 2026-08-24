@@ -15,10 +15,6 @@ import { connectMCP, chat, resetChat } from "../client/index.js"; // updated: ba
 import authRoutes from "./routes/auth.js"; // updated: authentication routes add karta hai
 import blueskyRoutes from "./routes/bluesky.js"; // updated: Bluesky account routes add karta hai
 import { protect } from "./middleware/auth.js"; // updated: authenticated user identify karta hai
-import dotenv from "dotenv";
-
-dotenv.config({ path: "../.env" });
-
 const app = express();
 app.use(cors());
 
